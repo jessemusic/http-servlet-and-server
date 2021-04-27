@@ -1,25 +1,23 @@
+<%@page import="org.eclipse.jdt.internal.compiler.ast.PrefixExpression"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.List, br.com.jmccursos.gerenciador.servlet.Empresa" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Java Standard Taglib</title>
 </head>
-<body>
-	PrintWriter out = response.getWriter();
-		
-		<ul>
-		<%
-			List<Empresa> lista = (List<Empresa>)request.getAttribute("empresas");
-			for (Empresa empresa : lista) {
-		%>	
-			<li><%= empresa.getNome() %></li>
-		<%	
-			}
-		%>
-		</ul>
+<body>+
+	Lista de empresas: <br/>
+	
+	<ul>
+			<c:forEach items="${empresas}" var="empresa">
+				<li>${empresa.nome}</li>
+			</c:forEach>
+	</ul>
+	
 		
 </body>
 </html>
