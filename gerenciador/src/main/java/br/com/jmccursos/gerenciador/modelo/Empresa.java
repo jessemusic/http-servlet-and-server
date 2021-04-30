@@ -1,4 +1,4 @@
-package br.com.jmccursos.gerenciador.servlet;
+package br.com.jmccursos.gerenciador.modelo;
 
 import java.util.Date;
 
