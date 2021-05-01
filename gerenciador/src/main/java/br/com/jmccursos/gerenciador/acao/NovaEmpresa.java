@@ -15,7 +15,7 @@ import br.com.jmccursos.gerenciador.modelo.Empresa;
 
 public class NovaEmpresa {
 	
-	public void executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("acao Cadatrando Nova empresa");
 
 		String nomeEmpresa = request.getParameter("nome");
@@ -40,7 +40,8 @@ public class NovaEmpresa {
 		
 		request.setAttribute("empresa", empresa.getNome());
 		
-		response.sendRedirect("entrada?acao=ListaEmpresas");
+		//response.sendRedirect("entrada?acao=ListaEmpresas");
+		return "redirect:entrada?acao=ListaEmpresas";
 		
 //		//Chamar o JSP
 //		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/listaEmpresas");

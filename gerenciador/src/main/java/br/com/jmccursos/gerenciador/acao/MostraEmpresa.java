@@ -13,7 +13,7 @@ import br.com.jmccursos.gerenciador.modelo.Empresa;
 
 public class MostraEmpresa {
 	
-	public void executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public String executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Mostrando empresa");
 		String paramId=request.getParameter("id");
 		Integer id= Integer.valueOf(paramId);
@@ -23,8 +23,8 @@ public class MostraEmpresa {
 		System.out.println(empresa.getNome());
 		
 		request.setAttribute("empresa", empresa);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/formAlteraEmpresa.jsp");
-		requestDispatcher.forward(request, response);
+		
+		return "forward:formAlteraEmpresa.jsp";
 	}
 
 }
