@@ -9,12 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.jmccursos.gerenciador.acao.AlteraEmpresa;
-import br.com.jmccursos.gerenciador.acao.ListaEmpresas;
-import br.com.jmccursos.gerenciador.acao.MostraEmpresa;
-import br.com.jmccursos.gerenciador.acao.NovaEmpresa;
-import br.com.jmccursos.gerenciador.acao.NovaEmpresaForm;
-import br.com.jmccursos.gerenciador.acao.RemoveEmpresa;
+import br.com.jmccursos.gerenciador.acao.Acao;
 
 @WebServlet("/entrada")
 public class UnicaEntradaServlet extends HttpServlet {
@@ -23,37 +18,55 @@ public class UnicaEntradaServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String paramAcao = request.getParameter("acao");
-		String nomeJsp = null;
 		
-		if(paramAcao.equals("ListaEmpresas")) {
-			ListaEmpresas acao = new ListaEmpresas();
-		    nomeJsp = acao.executa(request,response);
-		}else if(paramAcao.equals("MostraEmpresa")) {			
-			MostraEmpresa acao = new MostraEmpresa();
-			nomeJsp =acao.executa(request,response);
-		}else if(paramAcao.equals("RemoveEmpresa")) {	
-			RemoveEmpresa acao = new RemoveEmpresa();
-			nomeJsp = acao.executa(request,response);			
-		}else if(paramAcao.equals("AlteraEmpresa")) {	
-			AlteraEmpresa acao = new AlteraEmpresa(); 
-			nomeJsp = acao.executa(request,response);			
-		}else if(paramAcao.equals("NovaEmpresa")) {	
-			NovaEmpresa acao = new NovaEmpresa();
-			nomeJsp =acao.executa(request,response);
-			
-		}else if(paramAcao.equals("NovaEmpresaForm")) {	
-			NovaEmpresaForm acao = new NovaEmpresaForm();
-			nomeJsp =acao.executa(request,response);
-			
+		String nomeDaClasse = "br.com.jmccursos.gerenciador.acao."+ paramAcao;
+		
+		String nomeJsp;
+		try {
+			Class classe = Class.forName(nomeDaClasse);//Carrega a classe com o nome da String
+			Acao acao = (Acao) classe.newInstance();		
+			nomeJsp = acao.executa(request, response);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			throw new ServletException(e);
 		}
+		
 		String[]  tipoEEnderoco = nomeJsp.split(":");
-	if(tipoEEnderoco[0].equals("forward")) {	
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/view/" + tipoEEnderoco[1]);
-		requestDispatcher.forward(request, response);
-	}else{
+		if(tipoEEnderoco[0].equals("forward")) {	
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/view/" + tipoEEnderoco[1]);
+			requestDispatcher.forward(request, response);
+		}else{
 
-		response.sendRedirect(tipoEEnderoco[1]);
-	}
+			response.sendRedirect(tipoEEnderoco[1]);
+		}
+		
+		
+		
+		
+//				
+//		String nomeJsp = null;
+//		
+//		if(paramAcao.equals("ListaEmpresas")) {
+//			ListaEmpresas acao = new ListaEmpresas();
+//		    nomeJsp = acao.executa(request,response);
+//		}else if(paramAcao.equals("MostraEmpresa")) {			
+//			MostraEmpresa acao = new MostraEmpresa();
+//			nomeJsp =acao.executa(request,response);
+//		}else if(paramAcao.equals("RemoveEmpresa")) {	
+//			RemoveEmpresa acao = new RemoveEmpresa();
+//			nomeJsp = acao.executa(request,response);			
+//		}else if(paramAcao.equals("AlteraEmpresa")) {	
+//			AlteraEmpresa acao = new AlteraEmpresa(); 
+//			nomeJsp = acao.executa(request,response);			
+//		}else if(paramAcao.equals("NovaEmpresa")) {	
+//			NovaEmpresa acao = new NovaEmpresa();
+//			nomeJsp =acao.executa(request,response);
+//			
+//		}else if(paramAcao.equals("NovaEmpresaForm")) {	
+//			NovaEmpresaForm acao = new NovaEmpresaForm();
+//			nomeJsp =acao.executa(request,response);
+//			
+//		}
+	
 	
 	}
 
