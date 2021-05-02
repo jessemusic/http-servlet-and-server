@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.jmccursos.gerenciador.acao.Acao;
 
@@ -16,8 +17,18 @@ public class UnicaEntradaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String paramAcao = request.getParameter("acao");
+		
+		HttpSession htses= request.getSession();
+		boolean usuarioNaoEstaLogado= (htses.getAttribute("usuarioLogado")==null);
+		boolean ehUmaAcaoProtegida = !(paramAcao.equals("Login") || paramAcao.equals("LoginForm"));
+		if(ehUmaAcaoProtegida && usuarioNaoEstaLogado) {
+			response.sendRedirect("entrada?acao=LoginForm");
+			return;
+		}
+		
+		
+		
 		
 		String nomeDaClasse = "br.com.jmccursos.gerenciador.acao."+ paramAcao;
 		
