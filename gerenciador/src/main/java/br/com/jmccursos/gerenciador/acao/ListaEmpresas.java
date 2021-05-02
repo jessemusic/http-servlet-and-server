@@ -14,16 +14,12 @@ import br.com.jmccursos.gerenciador.modelo.Empresa;
 public class ListaEmpresas implements Acao {
 	
 	public String executa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		HttpSession htses= request.getSession();
-		if(htses.getAttribute("usuarioLogado")==null) {
-			return "redirect:entrada?acao=loginForm";
-		}
-		
+	
 		System.out.println("listando empresa");
 		Banco banco = new Banco();
 		List<Empresa> lista = banco.getEmpresas();
 		request.setAttribute("empresas", lista);
+		
 		return "forward:listaEmpresas.jsp";
 	}
 
