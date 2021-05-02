@@ -9,6 +9,7 @@
 </head>
 <body>
 	
+	<c:import url="logout-parcial.jsp"></c:import>
 	
 	<form action="${linkAltera}" method="post">
 		
